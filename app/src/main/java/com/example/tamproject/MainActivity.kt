@@ -26,12 +26,52 @@ class MainActivity : ComponentActivity() {
                 ) {
                     when (currentScreen) {
                         "login" -> LoginScreen(onLoginClick = { currentScreen = "dashboard" })
+                        
                         "dashboard" -> DashboardScreen(
-                            onSortingWasteClick = { },
-                            onSmartPantryClick = { },
-                            onEcoChallengeClick = { },
-                            onRewardClick = { },
+                            onSortingWasteClick = { currentScreen = "waste_sorting" },
+                            onSmartPantryClick = { currentScreen = "smart_pantry" },
+                            onEcoChallengeClick = { /* Handle if needed */ },
+                            onRewardClick = { currentScreen = "my_points" },
                             onLogoutClick = { currentScreen = "login" }
+                        )
+
+                        "waste_sorting" -> WasteSortingScreen(
+                            onInorganicClick = { currentScreen = "inorganic" },
+                            onHomeClick = { currentScreen = "dashboard" },
+                            onEcoChallengeClick = { },
+                            onWasteSortingClick = { currentScreen = "waste_sorting" },
+                            onMyPointsClick = { currentScreen = "my_points" },
+                            onSmartPantryClick = { currentScreen = "smart_pantry" }
+                        )
+
+                        "smart_pantry" -> SmartPantryScreen(
+                            onCalendarClick = { currentScreen = "meal_plan" },
+                            onHomeClick = { currentScreen = "dashboard" },
+                            onEcoChallengeClick = { },
+                            onWasteSortingClick = { currentScreen = "waste_sorting" },
+                            onMyPointsClick = { currentScreen = "my_points" },
+                            onSmartPantryClick = { currentScreen = "smart_pantry" }
+                        )
+
+                        "meal_plan" -> MealPlanScreen(
+                            onBack = { currentScreen = "smart_pantry" },
+                            onHomeClick = { currentScreen = "dashboard" },
+                            onEcoChallengeClick = { },
+                            onWasteSortingClick = { currentScreen = "waste_sorting" },
+                            onMyPointsClick = { currentScreen = "my_points" },
+                            onSmartPantryClick = { currentScreen = "smart_pantry" }
+                        )
+
+                        "inorganic" -> InorganicScreen(
+                            onBack = { currentScreen = "waste_sorting" }
+                        )
+
+                        "my_points" -> MyPointsScreen(
+                            onHomeClick = { currentScreen = "dashboard" },
+                            onEcoChallengeClick = { },
+                            onWasteSortingClick = { currentScreen = "waste_sorting" },
+                            onMyPointsClick = { currentScreen = "my_points" },
+                            onSmartPantryClick = { currentScreen = "smart_pantry" }
                         )
                     }
                 }
