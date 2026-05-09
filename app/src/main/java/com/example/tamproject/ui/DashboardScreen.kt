@@ -10,7 +10,6 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.Assignment
 import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
@@ -26,8 +25,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tamproject.R
-import com.example.tamproject.ui.theme.Black
 import com.example.tamproject.ui.theme.MainGreen
+import com.example.tamproject.ui.components.BottomNavigationBar
 
 @Composable
 fun DashboardScreen(
@@ -56,7 +55,7 @@ fun DashboardScreen(
                 .padding(horizontal = 20.dp)
         ) {
             Spacer(modifier = Modifier.height(16.dp))
-            
+
             // Header: Profile & Greeting + Logout
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -212,68 +211,4 @@ fun CategoryCard(item: CategoryItem, onClick: () -> Unit) {
     }
 }
 
-@Composable
-fun BottomNavigationBar(
-    currentScreen: String,
-    onHomeClick: () -> Unit,
-    onEcoChallengeClick: () -> Unit,
-    onWasteSortingClick: () -> Unit,
-    onMyPointsClick: () -> Unit,
-    onSmartPantryClick: () -> Unit
-) {
-    NavigationBar(
-        containerColor = Color.White,
-        modifier = Modifier.height(80.dp)
-    ) {
-        val transparentColors = NavigationBarItemDefaults.colors(
-            indicatorColor = Color.Transparent,
-            selectedIconColor = MainGreen,
-            unselectedIconColor = Color.Gray
-        )
 
-        NavigationBarItem(
-            icon = { Icon(Icons.Default.Home, contentDescription = null) },
-            selected = currentScreen == "dashboard",
-            onClick = onHomeClick,
-            colors = transparentColors
-        )
-        NavigationBarItem(
-            icon = { Icon(Icons.AutoMirrored.Filled.Assignment, contentDescription = null) },
-            selected = currentScreen == "eco_challenge",
-            onClick = onEcoChallengeClick,
-            colors = transparentColors
-        )
-        
-        // Middle Button: Waste Sorting
-        Box(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxHeight()
-                .clickable { onWasteSortingClick() },
-            contentAlignment = Alignment.Center
-        ) {
-            Box(
-                modifier = Modifier
-                    .size(54.dp)
-                    .clip(CircleShape)
-                    .background(MainGreen),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(Icons.Default.QrCodeScanner, contentDescription = null, tint = Color.White)
-            }
-        }
-
-        NavigationBarItem(
-            icon = { Icon(Icons.Default.Stars, contentDescription = null) },
-            selected = currentScreen == "my_points",
-            onClick = onMyPointsClick,
-            colors = transparentColors
-        )
-        NavigationBarItem(
-            icon = { Icon(Icons.Default.Kitchen, contentDescription = null) },
-            selected = currentScreen == "smart_pantry",
-            onClick = onSmartPantryClick,
-            colors = transparentColors
-        )
-    }
-}

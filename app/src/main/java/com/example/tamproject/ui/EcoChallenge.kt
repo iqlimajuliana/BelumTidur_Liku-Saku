@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tamproject.R
 import com.example.tamproject.ui.theme.MainGreen
-
+import com.example.tamproject.ui.components.BottomNavigationBar
 @Composable
 fun EcoChallengeScreen(
     onHomeClick: () -> Unit,

@@ -26,15 +26,14 @@ class MainActivity : ComponentActivity() {
                 ) {
                     when (currentScreen) {
                         "login" -> LoginScreen(onLoginClick = { currentScreen = "dashboard" })
-                        
+
                         "dashboard" -> DashboardScreen(
                             onSortingWasteClick = { currentScreen = "waste_sorting" },
                             onSmartPantryClick = { currentScreen = "smart_pantry" },
-                            onEcoChallengeClick = { /* Handle if needed */ },
+                            onEcoChallengeClick = { currentScreen = "eco_challenge" }, // Pastikan ini diisi
                             onRewardClick = { currentScreen = "my_points" },
                             onLogoutClick = { currentScreen = "login" }
                         )
-
                         "waste_sorting" -> WasteSortingScreen(
                             onInorganicClick = { currentScreen = "inorganic" },
                             onHomeClick = { currentScreen = "dashboard" },
@@ -69,6 +68,14 @@ class MainActivity : ComponentActivity() {
                         "my_points" -> MyPointsScreen(
                             onHomeClick = { currentScreen = "dashboard" },
                             onEcoChallengeClick = { },
+                            onWasteSortingClick = { currentScreen = "waste_sorting" },
+                            onMyPointsClick = { currentScreen = "my_points" },
+                            onSmartPantryClick = { currentScreen = "smart_pantry" }
+                        )
+
+                        "eco_challenge" -> EcoChallengeScreen(
+                            onHomeClick = { currentScreen = "dashboard" },
+                            onEcoChallengeClick = { currentScreen = "eco_challenge" },
                             onWasteSortingClick = { currentScreen = "waste_sorting" },
                             onMyPointsClick = { currentScreen = "my_points" },
                             onSmartPantryClick = { currentScreen = "smart_pantry" }
