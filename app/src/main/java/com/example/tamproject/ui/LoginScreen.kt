@@ -29,7 +29,6 @@ fun LoginScreen(onLoginClick: () -> Unit) {
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // ... (bagian atas tetap sama)
         Spacer(modifier = Modifier.height(40.dp))
         
         Image(
