@@ -17,9 +17,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tamproject.R
@@ -33,18 +33,22 @@ fun WasteSortingScreen(
     onEcoChallengeClick: () -> Unit,
     onWasteSortingClick: () -> Unit,
     onMyPointsClick: () -> Unit,
-    onSmartPantryClick: () -> Unit
+    onSmartPantryClick: () -> Unit,
+    onNotificationClick: () -> Unit,
+    onProfileClick: () -> Unit
 ) {
     Scaffold(
-        bottomBar = {
+        bottomBar = { 
             BottomNavigationBar(
                 currentScreen = "waste_sorting",
                 onHomeClick = onHomeClick,
                 onEcoChallengeClick = onEcoChallengeClick,
                 onWasteSortingClick = onWasteSortingClick,
                 onMyPointsClick = onMyPointsClick,
-                onSmartPantryClick = onSmartPantryClick
-            )
+                onSmartPantryClick = onSmartPantryClick,
+                onNotificationClick = onNotificationClick,
+                onProfileClick = onProfileClick
+            ) 
         }
     ) { innerPadding ->
         Column(
@@ -206,7 +210,7 @@ fun WasteSortingScreen(
                         }
                     }
                 }
-
+                
                 Button(
                     onClick = { },
                     modifier = Modifier.align(Alignment.End).padding(top = 8.dp),
@@ -249,7 +253,7 @@ fun SortingCard(item: SortingItem, onClick: () -> Unit) {
                 text = item.name,
                 fontSize = 12.sp,
                 fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center
+                textAlign = androidx.compose.ui.text.style.TextAlign.Center
             )
         }
     }

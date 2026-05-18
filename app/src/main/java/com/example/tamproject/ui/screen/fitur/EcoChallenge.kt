@@ -22,13 +22,16 @@ import androidx.compose.ui.unit.sp
 import com.example.tamproject.R
 import com.example.tamproject.ui.theme.MainGreen
 import com.example.tamproject.ui.navigation.BottomNavigationBar
+
 @Composable
 fun EcoChallengeScreen(
     onHomeClick: () -> Unit,
     onEcoChallengeClick: () -> Unit,
     onWasteSortingClick: () -> Unit,
     onMyPointsClick: () -> Unit,
-    onSmartPantryClick: () -> Unit
+    onSmartPantryClick: () -> Unit,
+    onNotificationClick: () -> Unit,
+    onProfileClick: () -> Unit
 ) {
     Scaffold(
         bottomBar = {
@@ -38,7 +41,9 @@ fun EcoChallengeScreen(
                 onEcoChallengeClick = onEcoChallengeClick,
                 onWasteSortingClick = onWasteSortingClick,
                 onMyPointsClick = onMyPointsClick,
-                onSmartPantryClick = onSmartPantryClick
+                onSmartPantryClick = onSmartPantryClick,
+                onNotificationClick = onNotificationClick,
+                onProfileClick = onProfileClick
             )
         }
     ) { innerPadding ->
@@ -66,7 +71,6 @@ fun EcoChallengeScreen(
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            // User Progress Card
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(24.dp),
@@ -85,7 +89,7 @@ fun EcoChallengeScreen(
                             Text("420", color = Color.White, fontSize = 32.sp, fontWeight = FontWeight.Bold)
                         }
                     }
-                    // Simple Progress Circle
+
                     Box(contentAlignment = Alignment.Center) {
                         CircularProgressIndicator(
                             progress = { 0.7f },
@@ -116,7 +120,7 @@ fun EcoChallengeScreen(
             Spacer(modifier = Modifier.height(12.dp))
 
             LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                items(missions) { mission ->
+                items(missionsList) { mission ->
                     MissionCard(mission)
                 }
             }
@@ -152,7 +156,7 @@ fun ChallengeCard(title: String, desc: String, modifier: Modifier) {
 
 data class Mission(val title: String, val xp: String, val p: String, val progress: Float, val count: String)
 
-val missions = listOf(
+val missionsList = listOf(
     Mission("Compost food scraps", "25 XP", "200 P", 0.4f, "1/3"),
     Mission("Go plastic-free for a week", "30 XP", "350 P", 0.8f, "6/7"),
     Mission("Try recipes made from food leftovers", "10 XP", "170 P", 0.3f, "1/3")

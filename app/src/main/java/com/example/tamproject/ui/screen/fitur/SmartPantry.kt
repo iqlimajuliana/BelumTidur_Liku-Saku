@@ -32,17 +32,21 @@ fun SmartPantryScreen(
     onEcoChallengeClick: () -> Unit,
     onWasteSortingClick: () -> Unit,
     onMyPointsClick: () -> Unit,
-    onSmartPantryClick: () -> Unit
+    onSmartPantryClick: () -> Unit,
+    onNotificationClick: () -> Unit,
+    onProfileClick: () -> Unit
 ) {
     Scaffold(
         bottomBar = {
             BottomNavigationBar(
-                currentScreen = "smart_pantry",
+                currentScreen = "",
                 onHomeClick = onHomeClick,
                 onEcoChallengeClick = onEcoChallengeClick,
                 onWasteSortingClick = onWasteSortingClick,
                 onMyPointsClick = onMyPointsClick,
-                onSmartPantryClick = onSmartPantryClick
+                onSmartPantryClick = onSmartPantryClick,
+                onNotificationClick = onNotificationClick,
+                onProfileClick = onProfileClick
             )
         }
     ) { innerPadding ->

@@ -35,7 +35,11 @@ fun DashboardScreen(
     onSmartPantryClick: () -> Unit,
     onEcoChallengeClick: () -> Unit,
     onRewardClick: () -> Unit,
-    onLogoutClick: () -> Unit
+    onEcoWasteDropClick: () -> Unit,
+    onMarketClick: () -> Unit,
+    onLogoutClick: () -> Unit,
+    onNotificationClick: () -> Unit,
+    onProfileClick: () -> Unit
 ) {
     Scaffold(
         bottomBar = { 
@@ -45,7 +49,9 @@ fun DashboardScreen(
                 onEcoChallengeClick = onEcoChallengeClick,
                 onWasteSortingClick = onSortingWasteClick,
                 onMyPointsClick = onRewardClick,
-                onSmartPantryClick = onSmartPantryClick
+                onSmartPantryClick = onSmartPantryClick,
+                onNotificationClick = onNotificationClick,
+                onProfileClick = onProfileClick
             ) 
         }
     ) { innerPadding ->
@@ -56,8 +62,6 @@ fun DashboardScreen(
                 .padding(horizontal = 20.dp)
         ) {
             Spacer(modifier = Modifier.height(16.dp))
-
-            // Header: Profile & Greeting + Logout
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
@@ -140,6 +144,8 @@ fun DashboardScreen(
                             "Smart Pantry" -> onSmartPantryClick()
                             "Eco-Challenge" -> onEcoChallengeClick()
                             "Reward" -> onRewardClick()
+                            "Eco Waste Drop" -> onEcoWasteDropClick()
+                            "Market" -> onMarketClick()
                         }
                     }
                 }
@@ -211,5 +217,3 @@ fun CategoryCard(item: CategoryItem, onClick: () -> Unit) {
         }
     }
 }
-
-

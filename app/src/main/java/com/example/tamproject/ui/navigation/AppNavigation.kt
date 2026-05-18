@@ -1,7 +1,6 @@
 package com.example.tamproject.ui.navigation
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -16,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.tamproject.ui.theme.MainGreen
 
+
 @Composable
 fun BottomNavigationBar(
     currentScreen: String,
@@ -23,7 +23,9 @@ fun BottomNavigationBar(
     onEcoChallengeClick: () -> Unit,
     onWasteSortingClick: () -> Unit,
     onMyPointsClick: () -> Unit,
-    onSmartPantryClick: () -> Unit
+    onSmartPantryClick: () -> Unit,
+    onNotificationClick: () -> Unit,
+    onProfileClick: () -> Unit
 ) {
     NavigationBar(
         containerColor = Color.White,
@@ -45,7 +47,7 @@ fun BottomNavigationBar(
             colors = transparentColors
         )
         
-        // 2. Eco Challenge
+        // 2. Eco Challenge (Icons.AutoMirrored.Filled.Assignment)
         NavigationBarItem(
             icon = { Icon(Icons.AutoMirrored.Filled.Assignment, contentDescription = "Eco Challenge") },
             selected = currentScreen == "eco_challenge",
@@ -53,12 +55,11 @@ fun BottomNavigationBar(
             colors = transparentColors
         )
         
-        // 3. Waste Sorting
+        // 3. Scan (Tengah - Kosong/Tidak diklik)
         Box(
             modifier = Modifier
                 .weight(1f)
-                .fillMaxHeight()
-                .clickable { onWasteSortingClick() },
+                .fillMaxHeight(),
             contentAlignment = Alignment.Center
         ) {
             Box(
@@ -68,23 +69,23 @@ fun BottomNavigationBar(
                     .background(MainGreen),
                 contentAlignment = Alignment.Center
             ) {
-                Icon(Icons.Default.QrCodeScanner, contentDescription = "Waste Sorting", tint = Color.White)
+                Icon(Icons.Default.QrCodeScanner, contentDescription = "Scan", tint = Color.White)
             }
         }
 
-        // 4. My Points
+        // 4. Notification (Bell Icon)
         NavigationBarItem(
-            icon = { Icon(Icons.Default.Stars, contentDescription = "My Points") },
-            selected = currentScreen == "my_points",
-            onClick = onMyPointsClick,
+            icon = { Icon(Icons.Default.Notifications, contentDescription = "Notification") },
+            selected = currentScreen == "notification",
+            onClick = onNotificationClick,
             colors = transparentColors
         )
         
-        // 5. Smart Pantry
+        // 5. Profile (Person Icon)
         NavigationBarItem(
-            icon = { Icon(Icons.Default.Kitchen, contentDescription = "Smart Pantry") },
-            selected = currentScreen == "smart_pantry",
-            onClick = onSmartPantryClick,
+            icon = { Icon(Icons.Default.Person, contentDescription = "Profile") },
+            selected = currentScreen == "profile",
+            onClick = onProfileClick,
             colors = transparentColors
         )
     }

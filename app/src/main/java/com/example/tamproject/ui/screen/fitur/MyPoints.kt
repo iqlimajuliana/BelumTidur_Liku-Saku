@@ -33,17 +33,21 @@ fun MyPointsScreen(
     onEcoChallengeClick: () -> Unit,
     onWasteSortingClick: () -> Unit,
     onMyPointsClick: () -> Unit,
-    onSmartPantryClick: () -> Unit
+    onSmartPantryClick: () -> Unit,
+    onNotificationClick: () -> Unit,
+    onProfileClick: () -> Unit
 ) {
     Scaffold(
         bottomBar = {
             BottomNavigationBar(
-                currentScreen = "my_points",
+                currentScreen = "eco_challenge",
                 onHomeClick = onHomeClick,
                 onEcoChallengeClick = onEcoChallengeClick,
                 onWasteSortingClick = onWasteSortingClick,
                 onMyPointsClick = onMyPointsClick,
-                onSmartPantryClick = onSmartPantryClick
+                onSmartPantryClick = onSmartPantryClick,
+                onNotificationClick = onNotificationClick,
+                onProfileClick = onProfileClick
             )
         }
     ) { innerPadding ->
@@ -84,9 +88,7 @@ fun MyPointsScreen(
                         modifier = Modifier.fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        // Left Column: Points and Scan
                         Column(modifier = Modifier.weight(0.45f)) {
-                            // Points Card
                             Card(
                                 shape = RoundedCornerShape(24.dp),
                                 colors = CardDefaults.cardColors(containerColor = Color.White),
@@ -122,7 +124,6 @@ fun MyPointsScreen(
 
                             Spacer(modifier = Modifier.height(12.dp))
 
-                            // Scan Card
                             Card(
                                 shape = RoundedCornerShape(24.dp),
                                 colors = CardDefaults.cardColors(containerColor = Color.White),
