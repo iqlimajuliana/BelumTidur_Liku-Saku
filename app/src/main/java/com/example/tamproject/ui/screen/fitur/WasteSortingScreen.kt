@@ -1,4 +1,4 @@
-package com.example.tamproject.ui
+package com.example.tamproject.ui.screen.fitur
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -19,10 +19,11 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tamproject.R
-import com.example.tamproject.ui.components.BottomNavigationBar
+import com.example.tamproject.ui.navigation.BottomNavigationBar
 import com.example.tamproject.ui.theme.*
 
 @Composable
@@ -248,7 +249,7 @@ fun SortingCard(item: SortingItem, onClick: () -> Unit) {
                 text = item.name,
                 fontSize = 12.sp,
                 fontWeight = FontWeight.Bold,
-                textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                textAlign = TextAlign.Center
             )
         }
     }

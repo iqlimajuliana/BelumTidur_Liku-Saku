@@ -1,4 +1,4 @@
-package com.example.tamproject.ui
+package com.example.tamproject.ui.screen.dashboard
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -22,11 +22,12 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tamproject.R
 import com.example.tamproject.ui.theme.MainGreen
-import com.example.tamproject.ui.components.BottomNavigationBar
+import com.example.tamproject.ui.navigation.BottomNavigationBar
 
 @Composable
 fun DashboardScreen(
@@ -206,7 +207,7 @@ fun CategoryCard(item: CategoryItem, onClick: () -> Unit) {
         ) {
             Icon(item.icon, contentDescription = null, tint = MainGreen, modifier = Modifier.size(32.dp))
             Spacer(modifier = Modifier.height(4.dp))
-            Text(item.name, fontSize = 10.sp, fontWeight = FontWeight.Bold, textAlign = androidx.compose.ui.text.style.TextAlign.Center)
+            Text(item.name, fontSize = 10.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
         }
     }
 }

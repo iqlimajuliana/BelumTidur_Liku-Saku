@@ -9,8 +9,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import com.example.tamproject.ui.*
+import com.example.tamproject.ui.screen.login.LoginScreen
 import com.example.tamproject.ui.theme.TAMPROJECTTheme
+import com.example.tamproject.ui.screen.dashboard.DashboardScreen
+import com.example.tamproject.ui.screen.fitur.EcoChallengeScreen
+import com.example.tamproject.ui.screen.fiturdetail.InorganicScreen
+import com.example.tamproject.ui.screen.fiturdetail.MealPlanScreen
+import com.example.tamproject.ui.screen.fitur.MyPointsScreen
+import com.example.tamproject.ui.screen.fitur.SmartPantryScreen
+import com.example.tamproject.ui.screen.fitur.WasteSortingScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,7 +37,9 @@ class MainActivity : ComponentActivity() {
                         "dashboard" -> DashboardScreen(
                             onSortingWasteClick = { currentScreen = "waste_sorting" },
                             onSmartPantryClick = { currentScreen = "smart_pantry" },
-                            onEcoChallengeClick = { currentScreen = "eco_challenge" }, // Pastikan ini diisi
+                            onEcoChallengeClick = {
+                                currentScreen = "eco_challenge"
+                            }, // Pastikan ini diisi
                             onRewardClick = { currentScreen = "my_points" },
                             onLogoutClick = { currentScreen = "login" }
                         )

@@ -1,4 +1,4 @@
-package com.example.tamproject.ui.components
+package com.example.tamproject.ui.navigation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

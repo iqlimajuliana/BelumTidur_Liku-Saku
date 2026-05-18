@@ -1,4 +1,4 @@
-package com.example.tamproject.ui
+package com.example.tamproject.ui.screen.fiturdetail
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -18,7 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.tamproject.ui.components.BottomNavigationBar
+import com.example.tamproject.ui.navigation.BottomNavigationBar
 import com.example.tamproject.ui.theme.HeaderGradientEnd
 import com.example.tamproject.ui.theme.HeaderGradientStart
 import com.example.tamproject.ui.theme.MainGreen

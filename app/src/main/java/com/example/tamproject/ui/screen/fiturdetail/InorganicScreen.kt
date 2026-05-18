@@ -1,5 +1,6 @@
-package com.example.tamproject.ui
+package com.example.tamproject.ui.screen.fiturdetail
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -16,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tamproject.R
@@ -73,7 +75,7 @@ fun InorganicScreen(onBack: () -> Unit) {
                 Text(
                     text = "Detail information",
                     modifier = Modifier.fillMaxWidth(),
-                    textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                    textAlign = TextAlign.Center,
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp
                 )
@@ -129,7 +131,7 @@ fun ActionCard(title: String, subtitle: String, buttonText: String) {
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
-        border = androidx.compose.foundation.BorderStroke(1.dp, Color.LightGray)
+        border = BorderStroke(1.dp, Color.LightGray)
     ) {
         Row(
             modifier = Modifier.padding(16.dp),
@@ -144,7 +146,7 @@ fun ActionCard(title: String, subtitle: String, buttonText: String) {
                 shape = RoundedCornerShape(12.dp),
                 contentPadding = PaddingValues(horizontal = 12.dp, vertical = 4.dp),
                 colors = ButtonDefaults.outlinedButtonColors(contentColor = MainGreen),
-                border = androidx.compose.foundation.BorderStroke(1.dp, MainGreen)
+                border = BorderStroke(1.dp, MainGreen)
             ) {
                 Text(buttonText, fontSize = 10.sp)
             }
