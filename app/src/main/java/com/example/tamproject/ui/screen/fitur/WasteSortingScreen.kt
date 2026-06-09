@@ -1,259 +1,318 @@
 package com.example.tamproject.ui.screen.fitur
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.outlined.QrCodeScanner
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.example.tamproject.R
+import com.example.tamproject.data.model.SortingItem
 import com.example.tamproject.ui.navigation.BottomNavigationBar
 import com.example.tamproject.ui.theme.*
+import com.example.tamproject.ui.utils.getResourceId
+import com.example.tamproject.ui.viewmodel.WasteViewModel
 
 @Composable
 fun WasteSortingScreen(
-    onInorganicClick: () -> Unit,
+    viewModel: WasteViewModel,
+    onCategoryClick: (String) -> Unit,
     onHomeClick: () -> Unit,
     onEcoChallengeClick: () -> Unit,
-    onWasteSortingClick: () -> Unit,
-    onMyPointsClick: () -> Unit,
-    onSmartPantryClick: () -> Unit,
+    onScanClick: () -> Unit,
     onNotificationClick: () -> Unit,
     onProfileClick: () -> Unit
 ) {
+    val sortingItems by viewModel.sortingItems.collectAsState(initial = emptyList())
+    var searchQuery by remember { mutableStateOf("") }
+
+    val filteredItems = remember(sortingItems, searchQuery) {
+        if (searchQuery.isBlank()) sortingItems
+        else sortingItems.filter { it.name.contains(searchQuery, ignoreCase = true) }
+    }
+
     Scaffold(
+        containerColor = Color.White,
         bottomBar = { 
             BottomNavigationBar(
-                currentScreen = "waste_sorting",
+                currentScreen = "home",
                 onHomeClick = onHomeClick,
                 onEcoChallengeClick = onEcoChallengeClick,
-                onWasteSortingClick = onWasteSortingClick,
-                onMyPointsClick = onMyPointsClick,
-                onSmartPantryClick = onSmartPantryClick,
+                onScanClick = onScanClick,
                 onNotificationClick = onNotificationClick,
                 onProfileClick = onProfileClick
             ) 
         }
     ) { innerPadding ->
-        Column(
+        LazyColumn(
             modifier = Modifier
-                .fillMaxSize()
                 .padding(innerPadding)
+                .fillMaxSize()
         ) {
-            // Header with Gradient
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(180.dp)
-                    .background(
-                        brush = Brush.verticalGradient(
-                            colors = listOf(HeaderGradientStart, HeaderGradientEnd)
+            // Header Section with Logo
+            item {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(160.dp)
+                        .background(
+                            brush = Brush.verticalGradient(
+                                colors = listOf(GradientGreenStart, GradientGreenEnd)
+                            )
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = null,
+                            tint = HijauEco,
+                            modifier = Modifier.size(50.dp)
                         )
-                    ),
-                contentAlignment = Alignment.Center
-            ) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Icon(
-                        imageVector = Icons.Default.Delete,
-                        contentDescription = "Logo",
-                        tint = MainGreen,
-                        modifier = Modifier.size(48.dp)
-                    )
-                    Text(
-                        text = "Li-Ku\nSaku",
-                        color = MainGreen,
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.Bold,
-                        lineHeight = 24.sp
-                    )
+                        Spacer(modifier = Modifier.width(12.dp))
+                        Text(
+                            text = "Li-Ku Saku Center",
+                            color = HijauEco,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 24.sp,
+                            textAlign = TextAlign.Center
+                        )
+                    }
                 }
             }
 
-            Column(modifier = Modifier.padding(horizontal = 20.dp)) {
-                // Search Bar
+            // Search Bar Section
+            item {
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
-                    placeholder = { Text("Search...") },
-                    leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
-                    trailingIcon = { Icon(Icons.Default.Info, contentDescription = null) },
+                    value = searchQuery,
+                    onValueChange = { searchQuery = it },
+                    placeholder = { Text("Search . . .", color = AbuAbuText) },
+                    leadingIcon = { Icon(Icons.Default.Search, contentDescription = null, tint = AbuAbuText) },
+                    trailingIcon = { Icon(Icons.Outlined.QrCodeScanner, contentDescription = null, tint = Color.Black) },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 16.dp)
-                        .clip(RoundedCornerShape(30.dp)),
-                    shape = RoundedCornerShape(30.dp),
+                        .padding(horizontal = Dimens.PaddingLarge)
+                        .offset(y = (-25).dp)
+                        .height(54.dp)
+                        .shadow(elevation = 8.dp, shape = RoundedCornerShape(25.dp), ambientColor = Color.LightGray),
+                    shape = RoundedCornerShape(25.dp),
                     colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = Color.Transparent,
+                        unfocusedBorderColor = Color.Transparent,
                         focusedContainerColor = Color.White,
                         unfocusedContainerColor = Color.White,
-                        disabledContainerColor = Color.White,
-                    )
+                        cursorColor = HijauEco
+                    ),
+                    singleLine = true
                 )
+            }
 
+            item {
                 Text(
                     text = "Sorting",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp,
-                    modifier = Modifier.padding(bottom = 12.dp)
+                    style = MaterialTheme.typography.titleLarge,
+                    modifier = Modifier.padding(horizontal = Dimens.PaddingLarge),
+                    color = Color.Black
                 )
+            }
 
-                val sortingItems = listOf(
-                    SortingItem("Organic", R.drawable.vector, OrganicColor),
-                    SortingItem("Inorganic", R.drawable.vector, InorganicColor),
-                    SortingItem("Hazardous\nAnd Toxic", R.drawable.vector, HazardousColor),
-                    SortingItem("Paper", R.drawable.vector, PaperColor),
-                    SortingItem("Residue", R.drawable.vector, ResidueColor)
-                )
-
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(3),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp),
-                    modifier = Modifier.height(240.dp)
-                ) {
-                    items(sortingItems) { item ->
-                        SortingCard(item) {
-                            if (item.name == "Inorganic") onInorganicClick()
+            // Sorting Categories Grid
+            item {
+                if (sortingItems.isEmpty()) {
+                    Box(modifier = Modifier.fillMaxWidth().height(150.dp), contentAlignment = Alignment.Center) {
+                        CircularProgressIndicator(color = HijauEco)
+                    }
+                } else {
+                    Column(
+                        modifier = Modifier.padding(Dimens.PaddingLarge),
+                        verticalArrangement = Arrangement.spacedBy(Dimens.PaddingMedium)
+                    ) {
+                        filteredItems.chunked(3).forEach { rowItems ->
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(Dimens.PaddingMedium)
+                            ) {
+                                rowItems.forEach { item ->
+                                    SortingCategoryCard(item, Modifier.weight(1f)) {
+                                        onCategoryClick(item.name)
+                                    }
+                                }
+                                repeat(3 - rowItems.size) {
+                                    Spacer(modifier = Modifier.weight(1f))
+                                }
+                            }
                         }
                     }
                 }
+            }
 
-                Spacer(modifier = Modifier.height(20.dp))
-
+            // Compost Guard Monitor Section
+            item {
                 Text(
                     text = "Compost Guard Monitor",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp,
-                    modifier = Modifier.padding(bottom = 12.dp)
+                    style = MaterialTheme.typography.titleLarge,
+                    modifier = Modifier.padding(horizontal = Dimens.PaddingLarge),
+                    color = Color.Black
                 )
-
-                // Compost Card
+                Spacer(modifier = Modifier.height(Dimens.PaddingMedium))
+                
                 Card(
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(24.dp),
-                    colors = CardDefaults.cardColors(containerColor = MainGreen)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = Dimens.PaddingLarge)
+                        .shadow(elevation = 4.dp, shape = RoundedCornerShape(Dimens.CornerRadiusLarge), ambientColor = Color.LightGray),
+                    shape = RoundedCornerShape(Dimens.CornerRadiusLarge),
+                    colors = CardDefaults.cardColors(containerColor = HijauEco)
                 ) {
                     Row(
-                        modifier = Modifier.padding(16.dp),
+                        modifier = Modifier.padding(Dimens.PaddingMedium),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Column(modifier = Modifier.weight(1f)) {
-                            Text("Kitchen Compost.", color = Color.White, fontWeight = FontWeight.Bold)
+                            Text("Kitchen Compost.", color = Color.White, style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Bold)
                             Row(verticalAlignment = Alignment.CenterVertically) {
-                                Box(modifier = Modifier.size(12.dp).clip(CircleShape).background(Color.Green))
+                                Box(modifier = Modifier.size(10.dp).clip(CircleShape).background(Color.Green))
                                 Spacer(modifier = Modifier.width(4.dp))
                                 Text("Cooked", color = Color.White, fontSize = 12.sp)
                             }
-                            Spacer(modifier = Modifier.height(8.dp))
+                            Spacer(modifier = Modifier.height(Dimens.PaddingSmall))
                             Text(
-                                "Auto-Desc :\nDecomposition is\ncomplete..",
+                                "Auto-Desc :\nDecomposition is\ncomplete...",
                                 color = Color.White,
                                 fontSize = 10.sp,
-                                lineHeight = 12.sp
+                                lineHeight = 12.sp,
+                                fontStyle = androidx.compose.ui.text.font.FontStyle.Italic
                             )
                         }
 
-                        Column(horizontalAlignment = Alignment.End) {
-                            Card(
-                                shape = RoundedCornerShape(12.dp),
-                                colors = CardDefaults.cardColors(containerColor = Color.White),
-                                modifier = Modifier.width(120.dp)
+                        Column(horizontalAlignment = Alignment.End, verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                            // Temperature Card
+                            Surface(
+                                color = Color.White,
+                                shape = RoundedCornerShape(Dimens.CornerRadiusMedium),
+                                modifier = Modifier.width(130.dp)
                             ) {
                                 Row(modifier = Modifier.padding(8.dp), verticalAlignment = Alignment.CenterVertically) {
                                     Column {
-                                        Text("temperature", fontSize = 10.sp, fontWeight = FontWeight.Bold)
-                                        Text("42°C", fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                                        Text("temperature", fontSize = 8.sp, fontWeight = FontWeight.Bold, color = Color.Black)
+                                        Text("42°C", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = Color.Black)
                                     }
                                     Spacer(modifier = Modifier.weight(1f))
-                                    Icon(Icons.Default.Warning, contentDescription = null, tint = Color.Red)
+                                    Icon(Icons.Default.DeviceThermostat, contentDescription = null, tint = Color.Red.copy(alpha = 0.6f))
                                 }
                             }
-                            Spacer(modifier = Modifier.height(8.dp))
-                            Row {
-                                Card(
-                                    shape = RoundedCornerShape(12.dp),
-                                    colors = CardDefaults.cardColors(containerColor = Color.White),
-                                    modifier = Modifier.width(60.dp)
-                                ) {
-                                    Column(modifier = Modifier.padding(4.dp)) {
-                                        Text("Gas", fontSize = 10.sp)
-                                        Text("Low", fontSize = 12.sp, fontWeight = FontWeight.Bold)
-                                    }
-                                }
-                                Spacer(modifier = Modifier.width(8.dp))
-                                Card(
-                                    shape = RoundedCornerShape(12.dp),
-                                    colors = CardDefaults.cardColors(containerColor = Color.White),
-                                    modifier = Modifier.width(52.dp)
-                                ) {
-                                    Column(modifier = Modifier.padding(4.dp)) {
-                                        Text("pH", fontSize = 10.sp)
-                                        Text("7.1", fontSize = 12.sp, fontWeight = FontWeight.Bold)
-                                    }
-                                }
+
+                            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                                // Gas Card
+                                MonitorSmallCard("Gas", "Low", Icons.Default.Cloud, Color.Blue.copy(alpha = 0.2f))
+                                // pH Card
+                                MonitorSmallCard("pH", "7.1", Icons.Default.WaterDrop, Color.Yellow.copy(alpha = 0.4f))
                             }
                         }
                     }
                 }
                 
-                Button(
-                    onClick = { },
-                    modifier = Modifier.align(Alignment.End).padding(top = 8.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = MainGreen),
-                    shape = RoundedCornerShape(20.dp)
-                ) {
-                    Text("+ Compost", fontSize = 12.sp)
+                Box(modifier = Modifier.fillMaxWidth().padding(horizontal = Dimens.PaddingLarge, vertical = Dimens.PaddingMedium)) {
+                    Button(
+                        onClick = { },
+                        colors = ButtonDefaults.buttonColors(containerColor = HijauEco),
+                        shape = RoundedCornerShape(20.dp),
+                        modifier = Modifier.align(Alignment.CenterEnd).height(32.dp),
+                        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 0.dp)
+                    ) {
+                        Text("+ Compost", fontSize = 12.sp, color = Color.White)
+                    }
                 }
+                Spacer(modifier = Modifier.height(Dimens.PaddingLarge))
             }
         }
     }
 }
 
-data class SortingItem(val name: String, val iconRes: Int, val color: Color)
+@Composable
+fun MonitorSmallCard(label: String, value: String, icon: androidx.compose.ui.graphics.vector.ImageVector, iconTint: Color) {
+    Surface(
+        color = Color.White,
+        shape = RoundedCornerShape(8.dp),
+        modifier = Modifier.width(62.dp)
+    ) {
+        Column(modifier = Modifier.padding(6.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(label, fontSize = 8.sp, color = Color.Black)
+                Spacer(modifier = Modifier.width(2.dp))
+                Icon(icon, contentDescription = null, tint = iconTint, modifier = Modifier.size(10.dp))
+            }
+            Text(value, fontSize = 12.sp, fontWeight = FontWeight.Bold, color = Color.Black)
+        }
+    }
+}
 
 @Composable
-fun SortingCard(item: SortingItem, onClick: () -> Unit) {
+fun SortingCategoryCard(item: SortingItem, modifier: Modifier = Modifier, onClick: () -> Unit) {
+    val itemColor = try { Color(android.graphics.Color.parseColor(item.colorHex)) } catch (e: Exception) { HijauEco }
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(110.dp)
-            .clickable { onClick() },
-        shape = RoundedCornerShape(16.dp),
+        modifier = modifier
+            .aspectRatio(0.85f)
+            .clickable { onClick() }
+            .shadow(elevation = 4.dp, shape = RoundedCornerShape(Dimens.CornerRadiusLarge), ambientColor = Color.LightGray),
+        shape = RoundedCornerShape(Dimens.CornerRadiusLarge),
         colors = CardDefaults.cardColors(containerColor = Color.White),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        border = BorderStroke(1.dp, Color(0xFFF5F5F5))
     ) {
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize().padding(Dimens.PaddingSmall),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Icon(
-                painter = painterResource(id = item.iconRes),
-                contentDescription = null,
-                tint = item.color,
-                modifier = Modifier.size(40.dp)
-            )
+            Box(
+                modifier = Modifier
+                    .size(50.dp)
+                    .background(Color.White, RoundedCornerShape(12.dp))
+                    .border(1.dp, Color(0xFFEEEEEE), RoundedCornerShape(12.dp)),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Recycling,
+                    contentDescription = item.name,
+                    modifier = Modifier.size(32.dp),
+                    tint = itemColor
+                )
+            }
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = item.name,
-                fontSize = 12.sp,
-                fontWeight = FontWeight.Bold,
-                textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                style = MaterialTheme.typography.labelLarge,
+                textAlign = TextAlign.Center,
+                color = Color.Black,
+                lineHeight = 13.sp,
+                fontSize = 11.sp
             )
         }
     }
