@@ -1,7 +1,6 @@
 package com.example.tamproject.ui.screen.fitur
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -20,21 +19,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
-import com.example.tamproject.R
+import androidx.core.graphics.toColorInt
 import com.example.tamproject.data.model.SortingItem
 import com.example.tamproject.ui.navigation.BottomNavigationBar
 import com.example.tamproject.ui.theme.*
-import com.example.tamproject.ui.utils.getResourceId
 import com.example.tamproject.ui.viewmodel.WasteViewModel
 
 @Composable
@@ -276,7 +268,7 @@ fun MonitorSmallCard(label: String, value: String, icon: androidx.compose.ui.gra
 
 @Composable
 fun SortingCategoryCard(item: SortingItem, modifier: Modifier = Modifier, onClick: () -> Unit) {
-    val itemColor = try { Color(android.graphics.Color.parseColor(item.colorHex)) } catch (e: Exception) { HijauEco }
+    val itemColor = try { Color(item.colorHex.toColorInt()) } catch (_: Exception) { HijauEco }
     Card(
         modifier = modifier
             .aspectRatio(0.85f)

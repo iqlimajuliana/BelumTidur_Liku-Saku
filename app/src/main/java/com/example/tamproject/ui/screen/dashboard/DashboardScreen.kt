@@ -193,26 +193,26 @@ fun DashboardScreen(
                         modifier = Modifier.padding(horizontal = Dimens.PaddingLarge),
                         verticalArrangement = Arrangement.spacedBy(Dimens.PaddingMedium)
                     ) {
-                        for (row in 0 until 2) {
+                        categories.chunked(3).forEach { rowItems ->
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.spacedBy(Dimens.PaddingMedium)
                             ) {
-                                for (col in 0 until 3) {
-                                    val index = row * 3 + col
-                                    if (index < categories.size) {
-                                        val item = categories[index]
-                                        CategoryCard(item, Modifier.weight(1f)) {
-                                            when (item.id) {
-                                                "smart_pantry" -> onSmartPantryClick()
-                                                "waste_sorting" -> onWasteSortingClick()
-                                                "eco_challenge" -> onEcoChallengeClick()
-                                                "reward" -> onMyPointsClick()
-                                                "eco_waste_drop" -> onEcoWasteDropClick()
-                                                "market" -> onMarketClick()
-                                            }
+                                rowItems.forEach { item ->
+                                    CategoryCard(item, Modifier.weight(1f)) {
+                                        when (item.id) {
+                                            "smart_pantry" -> onSmartPantryClick()
+                                            "waste_sorting" -> onWasteSortingClick()
+                                            "eco_challenge" -> onEcoChallengeClick()
+                                            "reward" -> onMyPointsClick()
+                                            "eco_waste_drop" -> onEcoWasteDropClick()
+                                            "market" -> onMarketClick()
                                         }
                                     }
+                                }
+                                // Fill empty space if row has less than 3 items
+                                repeat(3 - rowItems.size) {
+                                    Spacer(modifier = Modifier.weight(1f))
                                 }
                             }
                         }

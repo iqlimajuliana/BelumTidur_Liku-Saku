@@ -2,7 +2,6 @@ package com.example.tamproject.ui.screen.login
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -69,7 +68,6 @@ fun RegisterScreen(
             item {
                 Spacer(modifier = Modifier.height(Dimens.PaddingLarge))
                 
-                // Illustration (Sesuai Gambar SIGN UP)
                 Image(
                     painter = painterResource(id = R.drawable.login),
                     contentDescription = null,
@@ -99,7 +97,6 @@ fun RegisterScreen(
 
                 Spacer(modifier = Modifier.height(Dimens.PaddingExtraLarge))
 
-                // Input Fields
                 OutlinedTextField(
                     value = email,
                     onValueChange = { email = it },
@@ -161,7 +158,7 @@ fun RegisterScreen(
                 OutlinedTextField(
                     value = confirmPassword,
                     onValueChange = { confirmPassword = it },
-                    placeholder = { Text("Konfirmasi Password", color = AbuAbuText) },
+                    placeholder = { Text("Confirm Password", color = AbuAbuText) },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(Dimens.CornerRadiusExtraLarge),
                     singleLine = true,
@@ -208,6 +205,22 @@ fun RegisterScreen(
                             fontWeight = FontWeight.Bold
                         )
                     }
+                }
+
+                Spacer(modifier = Modifier.height(Dimens.PaddingMedium))
+
+                // Menambahkan navigasi balik ke Login agar parameter onBackToLogin digunakan
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Text(text = "Already have an account? ", color = AbuAbuText)
+                    Text(
+                        text = "Login",
+                        color = HijauEco,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.clickable { onBackToLogin() }
+                    )
                 }
 
                 Spacer(modifier = Modifier.height(Dimens.PaddingLarge))
